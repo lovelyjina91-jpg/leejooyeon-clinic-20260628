@@ -755,4 +755,44 @@ function copyMessage(){
     showToast('메시지가 복사됐어요! 카톡에 붙여넣기 하세요 📋');
   }).catch(() => {
     const ta = document.createElement('textarea');
-    ta.val
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('메시지가 복사됐어요! 카톡에 붙여넣기 하세요 📋');
+  });
+}
+
+function showToast(text){
+  const t = document.getElementById('toast');
+  t.textContent = text; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ============== KEYBOARD ==============
+document.addEventListener('keydown', e => {
+  const quiz = document.getElementById('screen-quiz');
+  if(!quiz.classList.contains('active')) return;
+  const cards = Array.from(document.querySelectorAll('.qcard'));
+  const center = window.innerHeight/2;
+  let best=null, bestDist=Infinity;
+  cards.forEach(c => {
+    const q = QUESTIONS.find(x => x.id === parseInt(c.id.slice(1)));
+    if(state.answers[q.id] !== undefined) return;
+    const rect = c.getBoundingClientRect();
+    if(rect.bottom < 0 || rect.top > window.innerHeight) return;
+    const dist = Math.abs((rect.top+rect.bottom)/2 - center);
+    if(dist < bestDist){ bestDist=dist; best=q; }
+  });
+  if(!best) return;
+  if(/^[1-5]$/.test(e.key)){
+    const n = parseInt(e.key);
+    if(n <= best.choices.length){ e.preventDefault(); answerChoice(best.id, n); }
+  }
+});
+
+// ============== INIT ==============
+startBtn.addEventListener('click', startQuiz);
+document.getElementById('copyBtn').addEventListener('click', copyMessage);
+refreshStart();
+</script>
+</body>
+</html>

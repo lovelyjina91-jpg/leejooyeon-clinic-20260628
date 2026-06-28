@@ -570,16 +570,41 @@ function startQuiz(){
   show('screen-quiz');
 }
 
-// ===== 회차마다 보기 순서를 섞어 정답 위치가 매번 달라지게 함 =====
+// ===== 회차마다 보기를 섞되, 정답 위치를 1~5에 고르게 분산 =====
+// (순수 무작위는 우연히 한 위치(예: 1번)에 정답이 몰릴 수 있어,
+//  정답 위치 목표값을 거의 균등(6/5/5/5/5)하게 만든 뒤 그 위치로 보냄)
 function shuffleChoices(){
-  QUESTIONS.forEach(q => {
-    if(q.type !== '객관식' || q.noshuffle) return;
+  const targetable = QUESTIONS.filter(q => q.type === '객관식' && !q.noshuffle);
+  const n = targetable.length;
+  // 1) 정답 목표 위치 풀 구성: 1~5를 같은 수만큼 깔고(균등), 나머지는 무작위 위치에 배분
+  //    26문항이면 각 위치 5개씩 + 남는 1개를 매 회차 '무작위' 위치에 → 6/5/5/5/5(6의 위치가 매번 바뀜)
+  const targets = [];
+  for(let k = 0; k < Math.floor(n / 5); k++){ targets.push(1, 2, 3, 4, 5); }
+  const rem = n % 5;
+  if(rem > 0){
+    const pool = [1, 2, 3, 4, 5];
+    for(let i = pool.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    for(let k = 0; k < rem; k++){ targets.push(pool[k]); }
+  }
+  // 2) 목표 위치 풀을 섞어, 어느 문항이 어느 위치를 받을지 매 회차 달라지게
+  for(let i = targets.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [targets[i], targets[j]] = [targets[j], targets[i]];
+  }
+  // 3) 각 문항: 보기를 완전 무작위로 섞은 뒤, 정답을 배정된 목표 위치로 이동
+  targetable.forEach((q, t) => {
     const correctText = q.choices[q.answer - 1];
     for(let i = q.choices.length - 1; i > 0; i--){
       const j = Math.floor(Math.random() * (i + 1));
       [q.choices[i], q.choices[j]] = [q.choices[j], q.choices[i]];
     }
-    q.answer = q.choices.indexOf(correctText) + 1;
+    const want = targets[t] - 1;                 // 0-based 목표 인덱스
+    const cur = q.choices.indexOf(correctText);  // 섞은 뒤 정답 현재 위치
+    [q.choices[cur], q.choices[want]] = [q.choices[want], q.choices[cur]];
+    q.answer = want + 1;
   });
 }
 
@@ -730,44 +755,4 @@ function copyMessage(){
     showToast('메시지가 복사됐어요! 카톡에 붙여넣기 하세요 📋');
   }).catch(() => {
     const ta = document.createElement('textarea');
-    ta.value = text; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    showToast('메시지가 복사됐어요! 카톡에 붙여넣기 하세요 📋');
-  });
-}
-
-function showToast(text){
-  const t = document.getElementById('toast');
-  t.textContent = text; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2400);
-}
-
-// ============== KEYBOARD ==============
-document.addEventListener('keydown', e => {
-  const quiz = document.getElementById('screen-quiz');
-  if(!quiz.classList.contains('active')) return;
-  const cards = Array.from(document.querySelectorAll('.qcard'));
-  const center = window.innerHeight/2;
-  let best=null, bestDist=Infinity;
-  cards.forEach(c => {
-    const q = QUESTIONS.find(x => x.id === parseInt(c.id.slice(1)));
-    if(state.answers[q.id] !== undefined) return;
-    const rect = c.getBoundingClientRect();
-    if(rect.bottom < 0 || rect.top > window.innerHeight) return;
-    const dist = Math.abs((rect.top+rect.bottom)/2 - center);
-    if(dist < bestDist){ bestDist=dist; best=q; }
-  });
-  if(!best) return;
-  if(/^[1-5]$/.test(e.key)){
-    const n = parseInt(e.key);
-    if(n <= best.choices.length){ e.preventDefault(); answerChoice(best.id, n); }
-  }
-});
-
-// ============== INIT ==============
-startBtn.addEventListener('click', startQuiz);
-document.getElementById('copyBtn').addEventListener('click', copyMessage);
-refreshStart();
-</script>
-</body>
-</html>
+    ta.val

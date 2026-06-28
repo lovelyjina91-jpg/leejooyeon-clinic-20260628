@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이주연 · 4단원 오답 클리닉 (동아 윤정미 3과 · 변형문제)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#28344b;
+    --ink-soft:#dde3ef;
+    --teal:#1f9e8f;
+    --teal-soft:#d6efea;
+    --amber:#e0a02b;
+    --amber-soft:#f8ecd0;
+    --bg:#f3f5f8;
+    --card:#ffffff;
+    --text:#2b2f36;
+    --muted:#6b7280;
+    --kakao:#fee500;
+    --kakao-text:#3c1e1e;
+    --good:#0d9b63;
+    --bad:#e05656;
+    --line:#e6e9ef;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;line-height:1.6}
+  .screen{display:none;padding:24px 20px 80px;max-width:760px;margin:0 auto}
+  .screen.active{display:block}
+  h1{font-size:1.7rem;margin:0 0 6px;color:var(--ink);font-weight:900;letter-spacing:-0.5px}
+  h2{font-size:1.25rem;margin:0 0 12px;color:var(--ink);font-weight:800}
+  h3{font-size:1.05rem;margin:18px 0 8px;color:var(--teal);font-weight:800}
+  p{margin:0 0 10px}
+  .pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:700;margin-right:6px;margin-bottom:6px}
+  .pill.teal{background:var(--teal-soft);color:#0c6357}
+  .pill.amber{background:var(--amber-soft);color:#8a6310}
+  .pill.ink{background:var(--ink-soft);color:var(--ink)}
+  .pill.unit{background:#e3effb;color:#1f5f9e}
+
+  .header{
+    background:linear-gradient(135deg,var(--ink) 0%,#3a4a68 55%,var(--teal) 130%);
+    color:#fff;border-radius:22px;padding:22px 22px 26px;margin-bottom:18px;
+    box-shadow:0 10px 30px rgba(40,52,75,.22);
+  }
+  .header .who{font-size:.95rem;font-weight:700;opacity:.95;margin-bottom:4px}
+  .header h1{color:#fff;font-size:1.5rem}
+  .header .sub{font-size:.92rem;font-weight:500;opacity:.95}
+  .header .brand{display:inline-block;margin-top:10px;font-size:.78rem;font-weight:700;background:rgba(255,255,255,.18);padding:4px 12px;border-radius:999px;letter-spacing:.3px}
+
+  .card{background:var(--card);border-radius:18px;padding:18px 18px 16px;margin-bottom:14px;
+    box-shadow:0 4px 16px rgba(40,52,75,.06);border:1px solid var(--line)}
+  .card.accent-teal{border-left:6px solid var(--teal)}
+  .card.accent-amber{border-left:6px solid var(--amber)}
+  .card.accent-ink{border-left:6px solid var(--ink)}
+
+  .dialog{background:#f8fafc;border-radius:12px;padding:12px 14px;border:1px dashed #cdd5e2;font-size:.95rem;margin:8px 0}
+  .dialog .line{margin:3px 0}
+  .dialog .a{color:#1f6f9e;font-weight:700}
+  .dialog .b{color:#0c6357;font-weight:700}
+  .reading{background:#f8fafc;border-radius:12px;padding:12px 14px;border:1px dashed #cdd5e2;font-size:.95rem;margin:8px 0;line-height:1.7}
+
+  .note{background:#fdf6e9;border-left:4px solid var(--amber);padding:10px 12px;border-radius:8px;font-size:.92rem;margin:10px 0}
+  .check{background:#eafaf2;border-left:4px solid var(--good);padding:10px 12px;border-radius:8px;font-size:.92rem;margin:10px 0}
+
+  .field{margin-top:10px}
+  .field label{display:block;font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:6px}
+  .field input{width:100%;padding:13px 14px;border:2px solid var(--line);border-radius:12px;font-size:1.05rem;font-family:inherit;background:#fafbfd}
+  .field input:focus{outline:none;border-color:var(--teal);background:#fff}
+
+  .btnrow{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .btn{flex:1;min-width:140px;padding:13px 18px;border:none;border-radius:14px;font-weight:800;font-size:1rem;cursor:pointer;font-family:inherit;transition:transform .08s ease, box-shadow .08s ease}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--teal);color:#fff;box-shadow:0 6px 16px rgba(31,158,143,.32)}
+  .btn.primary:disabled{background:#b8c2cf;box-shadow:none;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+  .btn.kakao{background:var(--kakao);color:var(--kakao-text);font-size:1.05rem;padding:16px;box-shadow:0 6px 16px rgba(254,229,0,.45)}
+
+  .progress{position:sticky;top:0;background:rgba(243,245,248,.92);backdrop-filter:blur(6px);padding:10px 0;z-index:10;margin-bottom:8px}
+  .progress .bar{height:8px;background:#e4e8ef;border-radius:4px;overflow:hidden}
+  .progress .fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--amber));transition:width .3s ease}
+  .progress .label{font-size:.85rem;color:var(--muted);margin-bottom:4px;font-weight:700}
+
+  .qcard{background:#fff;border-radius:18px;padding:16px 18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(40,52,75,.05);border:1px solid var(--line)}
+  .qcard .qmeta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .qcard .qnum{font-size:1.05rem;font-weight:900;color:var(--ink);margin-bottom:6px}
+  .qcard .qbody{font-size:.95rem;margin-bottom:10px}
+  .choices{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .choice{background:#fafbfd;border:2px solid #eceff3;border-radius:10px;padding:10px 12px;cursor:pointer;font-size:.95rem;transition:all .12s ease;display:flex;align-items:flex-start;gap:8px}
+  .choice .num{font-weight:800;color:var(--teal);min-width:18px}
+  .choice:hover{border-color:var(--teal-soft);background:#f3fbf9}
+  .choice.selected{border-color:var(--teal);background:var(--teal-soft);color:#0c5247}
+  .choice.locked{cursor:default;opacity:.9}
+  .feedback{margin-top:8px;font-size:.92rem;font-weight:700;padding:6px 10px;border-radius:8px;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:#e6f9f0;color:#0a7a4e}
+  .feedback.ng{background:#fdeaea;color:#a83232}
+  .explanation{margin-top:10px;padding:11px 13px;border-radius:10px;background:var(--amber-soft);font-size:.92rem;color:#5b4500;display:none;border-left:4px solid var(--amber);line-height:1.75}
+  .explanation.show{display:block}
+  .explanation strong{color:#0c6357}
+
+  .scorebox{background:linear-gradient(135deg,var(--ink) 0%,var(--teal) 130%);color:#fff;border-radius:20px;padding:22px;text-align:center;margin-bottom:14px;box-shadow:0 8px 24px rgba(40,52,75,.25)}
+  .scorebox .big{font-size:2.6rem;font-weight:900;line-height:1.1}
+  .scorebox .sub{font-size:.95rem;opacity:.95}
+  .summary{background:#fff;border-radius:14px;padding:14px;margin-bottom:14px;border:1px solid var(--line)}
+  .summary .row{display:flex;justify-content:space-between;padding:5px 0;font-size:.95rem;border-bottom:1px dashed #eee}
+  .summary .row:last-child{border-bottom:none}
+  .summary .row b{color:var(--ink)}
+  .preview{background:#fafbfd;border-radius:12px;padding:14px;font-family:'Noto Sans KR',monospace;font-size:.85rem;white-space:pre-wrap;max-height:300px;overflow-y:auto;border:1px solid var(--line);line-height:1.55}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:30px;font-weight:700;font-size:.92rem;opacity:0;transition:all .25s ease;z-index:100;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .kbd{display:inline-block;background:#fff;border:1px solid #ccc;border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:.8rem;font-family:monospace;font-weight:700;color:var(--ink)}
+  code.eng{background:#eef2f7;padding:2px 6px;border-radius:5px;font-family:'Courier New',monospace;font-size:.95em;color:var(--ink);font-weight:700}
+  .green{color:var(--good);font-weight:700}
+  .red{color:var(--bad);font-weight:700}
+  .foot{text-align:center;font-size:.8rem;color:var(--muted);margin-top:20px}
+</style>
+</head>
+<body>
+
+<!-- ========== START SCREEN ========== -->
+<section id="screen-start" class="screen active">
+  <div class="header">
+    <div class="who">📘 이주연 학생 · 4단원 오답 클리닉</div>
+    <h1>동아(윤정미) 3과 · 변형문제</h1>
+    <div class="sub">중2 영어 · 기말대비 (어휘·어법·독해 13유형 · 총 26문항 · 100% 객관식)</div>
+    <span class="brand">제공 · 영핏 지나티처</span>
+  </div>
+
+  <div class="card accent-teal">
+    <h2>🎯 오늘의 오답 클리닉</h2>
+    <p>이번엔 <b>4단원(동아 윤정미 3과)</b> 시험지에서 틀렸던 <b>13가지 문제</b>를, 똑같은 개념의 <b>유사문제 2개씩(총 26문항)</b>으로 다시 풀어볼 거예요.</p>
+    <p>특히 <b>어휘</b>는 뜻·예문·짝꿍표현까지 해설에 듬뿍 담았으니, 풀면서 자연스럽게 외워질 거예요 😊</p>
+    <p>한 문제씩 풀면 바로 체크돼요. <b>친절한 해설은 문제를 모두 푼 뒤 한 번에 공개</b>됩니다!</p>
+  </div>
+
+  <div class="card accent-amber">
+    <h3>✍️ 시작하기 전에 — 이름을 적어주세요</h3>
+    <p style="font-size:.92rem;color:var(--muted);margin-bottom:4px">결과를 카톡으로 보낼 때 이름이 들어가요. 꼭 입력해 주세요!</p>
+    <div class="field">
+      <label for="studentName">학생 이름</label>
+      <input id="studentName" type="text" placeholder="예) 이주연" autocomplete="off" />
+    </div>
+  </div>
+
+  <div class="note">
+    ⌨️ <b>객관식</b>은 <span class="kbd">1</span>~<span class="kbd">5</span> 키로 선택하면 바로 채점되고 다음 문제로 넘어가요!
+  </div>
+
+  <button class="btn primary" id="startBtn" disabled>이름을 입력하면 시작돼요</button>
+</section>
+
+<!-- ========== QUIZ SCREEN ========== -->
+<section id="screen-quiz" class="screen">
+  <div class="progress">
+    <div class="label" id="progressLabel">진행 0 / 0</div>
+    <div class="bar"><div class="fill" id="progressFill"></div></div>
+  </div>
+
+  <div id="quizList"></div>
+
+  <div class="note" id="quizEndNote" style="display:none">
+    🎉 모든 문제를 풀었어요! 해설을 확인하고, 잠시 후 결과 화면으로 이동해요.
+  </div>
+</section>
+
+<!-- ========== RESULT SCREEN ========== -->
+<section id="screen-result" class="screen">
+  <div class="scorebox">
+    <div class="sub" id="resultName">학생 점수</div>
+    <div class="big" id="finalScore">0 / 0</div>
+    <div class="sub" id="finalRate">정답률 0%</div>
+  </div>
+
+  <div class="summary">
+    <div class="row"><span>총 문제 수</span><b id="finalTotal">0문제</b></div>
+    <div class="row"><span>맞힌 문제</span><b id="finalCorrect">0개</b></div>
+    <div class="row"><span>틀린 문제</span><b id="finalWrong">0개</b></div>
+    <div class="row"><span>풀이 시간</span><b id="finalTime">0분</b></div>
+  </div>
+
+  <div class="card accent-teal">
+    <h2>💬 지나티처에게 보낼 카톡 메시지</h2>
+    <p style="font-size:.9rem;color:var(--muted)">아래 버튼을 누르면 메시지가 복사돼요. 카톡 열어서 붙여넣기!</p>
+    <button class="btn kakao" id="copyBtn">💬 카카오톡 메시지 복사하기</button>
+    <div style="margin-top:14px">
+      <div style="font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:6px">미리보기</div>
+      <div class="preview" id="kakaoPreview"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📚 풀이 다시 보기</h3>
+    <p style="font-size:.9rem">아래 버튼으로 모든 문제의 해설을 다시 볼 수 있어요.</p>
+    <button class="btn ghost" onclick="show('screen-quiz');window.scrollTo(0,0)">문제 화면으로 돌아가기</button>
+  </div>
+
+  <div class="foot">영핏 지나티처 · 이주연 4단원 오답 클리닉 (동아 윤정미 3과)</div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============== DATA ==============
+const TEACHER = "지나티처";
+let STUDENT = "학생";
+
+const QUESTIONS = [
+  // ===== 어휘 원본 3 · 빈칸 공통 (동사 collocation) =====
+  {
+    id:1, type:"객관식", origin:"어휘 원본 3번", topic:"빈칸 공통 (make 짝꿍표현)",
+    body:`다음 빈칸에 <b>공통</b>으로 들어갈 말로 알맞은 것은?
+      <div class="reading">• I ________ a big mistake on the test.<br>• We ________ a plan for the field trip.</div>`,
+    choices:[ "had", "made", "took", "did", "got" ],
+    answer:2,
+    explanation:"두 빈칸 모두 <code class='eng'>make</code>의 과거형 <code class='eng'>made</code>가 들어가요. 영어는 명사마다 어울리는 동사(짝꿍표현)가 정해져 있어요. <b>make a mistake</b>(실수를 하다), <b>make a plan</b>(계획을 세우다)처럼 'make'와 짝을 이루죠. ✅ 정답 ② made! 💡 자주 나오는 make 짝꿍: make a mistake(실수), make a decision(결정), make a plan(계획), make a noise(소음), make a cake(케이크 만들기). do는 'do homework / do the dishes'처럼 다른 짝이 있어요."
+  },
+  {
+    id:2, type:"객관식", origin:"어휘 원본 3번", topic:"빈칸 공통 (take 짝꿍표현)",
+    body:`다음 빈칸에 <b>공통</b>으로 들어갈 말로 알맞은 것은?
+      <div class="reading">• Let's ________ a picture in front of the tower.<br>• I want to ________ a rest after lunch.</div>`,
+    choices:[ "make", "do", "take", "have", "give" ],
+    answer:3,
+    explanation:"두 빈칸 모두 <code class='eng'>take</code>가 들어가요. <b>take a picture</b>(사진을 찍다), <b>take a rest</b>(휴식을 취하다)는 'take'와 짝을 이루는 표현이에요. ✅ 정답 ③ take! 💡 take 짝꿍 모음: take a picture(사진), take a rest/break(휴식), take a bus(버스 타다), take a walk(산책), take a shower(샤워). 같은 '하다'라도 mistake엔 make, picture엔 take! 짝을 통째로 외우면 어휘 문제가 쉬워져요."
+  },
+  // ===== 어휘 원본 4 · ⓐⓑ 연결 (발명/폭발 어휘) =====
+  {
+    id:3, type:"객관식", origin:"어휘 원본 4번", topic:"빈칸 ⓐⓑ 연결 (invention/crop)",
+    body:`다음 빈칸 ⓐ, ⓑ에 들어갈 말로 알맞게 연결된 것은?
+      <div class="reading">• The telephone was a great ⓐ________ that changed the world.<br>• Corn is the main ⓑ________ grown in this area.</div>`,
+    choices:[
+      "ⓐ invention  ⓑ crop",
+      "ⓐ invention  ⓑ cloud",
+      "ⓐ explosion  ⓑ crop",
+      "ⓐ forecast  ⓑ ash",
+      "ⓐ explosion  ⓑ cloud"
+    ],
+    answer:1,
+    explanation:"ⓐ에는 '세상을 바꾼 위대한 ___'이니 <b>invention(발명품)</b>, ⓑ에는 '이 지역에서 재배되는 주요 ___'이니 <b>crop(농작물)</b>이 알맞아요. ✅ 정답 ① invention / crop! 💡 어휘 정리 — invention(발명품, 동사 invent 발명하다 / inventor 발명가), crop(농작물), explosion(폭발, 동사 explode 폭발하다), cloud(구름), forecast(예보), ash(재). 'telephone=발명품', 'corn=농작물'이라는 의미 단서를 잡으면 헷갈리지 않아요."
+  },
+  {
+    id:4, type:"객관식", origin:"어휘 원본 4번", topic:"빈칸 ⓐⓑ 연결 (explosion/ash)",
+    body:`다음 빈칸 ⓐ, ⓑ에 들어갈 말로 알맞게 연결된 것은?
+      <div class="reading">• The volcano's ⓐ________ was heard far away.<br>• After the eruption, the sky was full of gray ⓑ________.</div>`,
+    choices:[
+      "ⓐ explosion  ⓑ ash",
+      "ⓐ invention  ⓑ ash",
+      "ⓐ explosion  ⓑ crop",
+      "ⓐ solution  ⓑ cloud",
+      "ⓐ invention  ⓑ crop"
+    ],
+    answer:1,
+    explanation:"ⓐ에는 화산의 '___ 소리가 멀리까지 들렸다'이니 <b>explosion(폭발)</b>, ⓑ에는 분출 후 하늘에 가득한 '회색 ___'이니 <b>ash(재/화산재)</b>가 알맞아요. ✅ 정답 ① explosion / ash! 💡 본문(탐보라 화산) 핵심 어휘예요. explosion(폭발) ↔ explode(폭발하다), ash(재), volcano(화산), erupt/eruption(분출). 'volcano(화산)'와 'gray(회색)'라는 단어가 ash로 가는 길잡이예요."
+  },
+  // ===== 어휘 원본 5 · 우리말 뜻 어색한 것 =====
+  {
+    id:5, type:"객관식", origin:"어휘 원본 5번", topic:"단어 뜻 (어색한 것 찾기)",
+    body:`다음 중 단어와 우리말 뜻의 연결이 <b>어색한</b> 것은?`,
+    choices:[
+      "necessity — 필요(성)",
+      "result — 결과",
+      "forecast — 지진",
+      "empty — 비어 있는",
+      "retype — 다시 입력하다"
+    ],
+    answer:3,
+    explanation:"③ <code class='eng'>forecast</code>는 '지진'이 아니라 <b>(날씨) 예보, 예측</b>이라는 뜻이에요. 'weather forecast(일기예보)'로 자주 쓰이죠. '지진'은 earthquake예요. ✅ 정답 ③! 💡 나머지는 모두 맞아요 — necessity(필요성, 형용사 necessary 필요한), result(결과), empty(비어 있는 ↔ full 가득 찬), retype(re다시+type입력 = 다시 입력하다). 'fore(미리)+cast(던지다) → 미리 내다보다 = 예보'로 기억하면 좋아요."
+  },
+  {
+    id:6, type:"객관식", origin:"어휘 원본 5번", topic:"단어 뜻 (어색한 것 찾기)",
+    body:`다음 중 단어와 우리말 뜻의 연결이 <b>어색한</b> 것은?`,
+    choices:[
+      "century — 세기(100년)",
+      "wooden — 나무로 된",
+      "disappointing — 실망스러운",
+      "solution — 해결책",
+      "entire — 비어 있는"
+    ],
+    answer:5,
+    explanation:"⑤ <code class='eng'>entire</code>는 '비어 있는'이 아니라 <b>전체의, 온전한</b>이라는 뜻이에요. (= whole) 'the entire village(마을 전체)'처럼 써요. '비어 있는'은 empty죠. ✅ 정답 ⑤! 💡 나머지는 맞아요 — century(세기), wooden(나무로 된, wood나무+en), disappointing(실망스러운, 동사 disappoint 실망시키다), solution(해결책, 동사 solve 풀다). entire ↔ empty 발음이 살짝 비슷해 헷갈리기 쉬우니 'entire=전체'로 콕 기억!"
+  },
+  // ===== 어휘 원본 6 · 단어 관계 (동사→사람명사 -er/-or) =====
+  {
+    id:7, type:"객관식", origin:"어휘 원본 6번", topic:"단어 관계 (-er/-or 사람)",
+    body:`다음 짝지어진 단어의 관계가 같도록 빈칸에 들어갈 말로 알맞은 것은?
+      <div class="reading">act : actor = invent : ________</div>`,
+    choices:[ "invention", "invented", "inventor", "inventing", "invents" ],
+    answer:3,
+    explanation:"<code class='eng'>act(연기하다) : actor(배우)</code>는 '동사 → 그 일을 하는 <b>사람</b>'의 관계예요. 그러니 invent(발명하다)도 사람으로 바꾸면 <b>inventor(발명가)</b>! ✅ 정답 ③ inventor! 💡 동사 뒤에 -er/-or을 붙이면 '~하는 사람'이 돼요 — teach→teacher(선생님), sing→singer(가수), act→actor(배우), invent→inventor(발명가), visit→visitor(방문객). invention은 '발명품'(사물)이라 사람 자리엔 안 맞아요. 주의!"
+  },
+  {
+    id:8, type:"객관식", origin:"어휘 원본 6번", topic:"단어 관계 (-er/-or 사람)",
+    body:`다음 짝지어진 단어의 관계가 같도록 빈칸에 들어갈 말로 알맞은 것은?
+      <div class="reading">drive : driver = visit : ________</div>`,
+    choices:[ "vision", "visited", "visiting", "visitor", "visits" ],
+    answer:4,
+    explanation:"<code class='eng'>drive(운전하다) : driver(운전자)</code>처럼 '동사 → ~하는 <b>사람</b>'의 관계예요. visit(방문하다)을 사람으로 바꾸면 <b>visitor(방문객)</b>! ✅ 정답 ④ visitor! 💡 -er은 보통 그냥 붙이고(teacher), -or로 끝나는 단어도 있어요(actor, visitor, inventor, director). vision(시력/시야)은 뜻이 전혀 달라요. '동사+사람'은 -er/-or, '동사+것(사물)'은 -ion/-ment가 많다는 점도 같이 기억해요."
+  },
+  // ===== 어휘 원본 7 · 보기 단어 형태 변형 =====
+  {
+    id:9, type:"객관식", origin:"어휘 원본 7번", topic:"빈칸 어휘·형태 연결",
+    body:`다음 빈칸 (1)~(3)에 들어갈 말로 알맞게 짝지어진 것은?
+      <div class="reading">(1) I could ________ the wrong answers with my uncle's help.<br>(2) He dropped his wallet, but he didn't ________ it.<br>(3) The gas tank ________, but fortunately no one was hurt.</div>
+      <div class="note">&lt;보기&gt; explode, correct, notice</div>`,
+    choices:[
+      "(1) correct  (2) notice  (3) exploded",
+      "(1) notice  (2) correct  (3) exploded",
+      "(1) correct  (2) noticed  (3) explode",
+      "(1) corrected  (2) notice  (3) explode",
+      "(1) notice  (2) correct  (3) explode"
+    ],
+    answer:1,
+    explanation:"문맥과 형태를 함께 봐야 해요. (1) '틀린 답을 ___ 할 수 있었다' → <b>correct(고치다, 바로잡다)</b> (조동사 could 뒤라 동사원형). (2) '지갑을 떨어뜨렸지만 ___ 못했다' → <b>notice(알아차리다)</b> (didn't 뒤라 원형). (3) '가스탱크가 ___, 다행히 다친 사람은 없었다' → <b>exploded(폭발했다)</b> (과거의 일이라 과거형). ✅ 정답 ① correct / notice / exploded! 💡 correct는 '맞는(형용사)'도 되지만 여기선 '고치다(동사)'. notice(알아차리다), explode(폭발하다)도 꼭 외워요. could·didn't 뒤엔 동사원형, 과거 사건엔 -ed!"
+  },
+  {
+    id:10, type:"객관식", origin:"어휘 원본 7번", topic:"빈칸 어휘·시제",
+    body:`다음 빈칸에 들어갈 말로 가장 알맞은 것은?
+      <div class="reading">Mt. Tambora ________ in 1815, and a huge cloud of ash covered the sky.</div>`,
+    choices:[ "explode", "explodes", "exploded", "exploding", "explosion" ],
+    answer:3,
+    explanation:"문장에 <code class='eng'>in 1815</code>(1815년에)라는 <b>과거 시점</b>이 있으니 동사는 과거형 <b>exploded</b>가 되어야 해요. ✅ 정답 ③ exploded! 💡 explode(폭발하다)는 동사, explosion(폭발)은 명사예요. 여기는 주어(Mt. Tambora) 뒤 '동사'자리이고 과거니까 exploded. explodes는 현재(3인칭 단수), exploding은 -ing형이라 시제가 안 맞아요. 연도(in 1815)·yesterday·ago 같은 과거 표시어가 보이면 동사 과거형!"
+  },
+  // ===== 어법 원본 8 · 영작 시 불필요한 단어 (have to + 동사원형) =====
+  {
+    id:11, type:"객관식", origin:"어법 원본 8번", topic:"영작 불필요 단어 (have to+원형)",
+    body:`다음 우리말을 영어로 옮길 때 <b>필요하지 않은</b> 단어는?
+      <div class="reading">그녀는 지금 집에 갈 필요가 없다.</div>`,
+    choices:[ "doesn't", "have", "to", "went", "home" ],
+    answer:4,
+    explanation:"바른 문장은 <code class='eng'>She doesn't have to go home now.</code>예요. <b>have to(~해야 한다)</b>의 부정 'doesn't have to(~할 필요 없다)' 뒤에는 반드시 <b>동사원형 go</b>가 와야 해요. 그래서 과거형 <b>went</b>는 필요 없어요. ✅ 정답 ④ went! 💡 have to / don't have to / has to 뒤에는 언제나 동사원형! (go ⭕ / went ❌, goes ❌) 'doesn't have to + 원형 = ~할 필요가 없다'를 통째로 기억해요."
+  },
+  {
+    id:12, type:"객관식", origin:"어법 원본 8번", topic:"영작 불필요 단어 (has to+원형)",
+    body:`다음 우리말을 영어로 옮길 때 <b>필요하지 않은</b> 단어는?
+      <div class="reading">그는 매일 운동을 해야 한다.</div>`,
+    choices:[ "has", "to", "exercising", "every", "day" ],
+    answer:3,
+    explanation:"바른 문장은 <code class='eng'>He has to exercise every day.</code>예요. 주어가 He(3인칭 단수)라 <b>has to</b>를 쓰고, 그 뒤에는 <b>동사원형 exercise</b>가 와야 해요. 그래서 -ing가 붙은 <b>exercising</b>은 필요 없어요. ✅ 정답 ③ exercising! 💡 'have to'는 주어가 3인칭 단수(he/she/it)면 <b>has to</b>로 바뀌어요. 그리고 그 뒤는 항상 동사원형! (exercise ⭕ / exercising ❌ / exercises ❌) every day(매일)는 '현재의 습관'이라 현재시제와 잘 어울려요."
+  },
+  // ===== 어법 원본 9 · 수동태 (was/were + p.p.) =====
+  {
+    id:13, type:"객관식", origin:"어법 원본 9번", topic:"수동태 (was + 과거분사)",
+    body:`다음 문장의 빈칸에 들어갈 말로 알맞은 것은?
+      <div class="reading">This famous song ________ by a Korean composer.</div>`,
+    choices:[ "wrote", "writes", "was written", "was writing", "were written" ],
+    answer:3,
+    explanation:"노래는 '쓰는 것'이 아니라 '<b>쓰여지는 것</b>'이죠? 이렇게 주어가 동작을 '당할' 때는 <b>수동태 [be동사 + 과거분사(p.p.)]</b>를 써요. 주어 song이 단수이고 과거의 일이니 <b>was written</b>. ✅ 정답 ③! 💡 write의 변화: write-wrote-written. 수동태는 'was/were + p.p.'예요. 주어가 단수면 was, 복수면 were. wrote/writes는 능동태(직접 쓰다)라 '곡에 의해 쓰여진다'는 의미엔 안 맞아요. 'by + 행위자'가 보이면 수동태 신호!"
+  },
+  {
+    id:14, type:"객관식", origin:"어법 원본 9번", topic:"수동태 (was + 과거분사)",
+    body:`다음 문장의 빈칸에 들어갈 말로 알맞은 것은?
+      <div class="reading">The <i>Mona Lisa</i> ________ by Leonardo da Vinci a long time ago.</div>`,
+    choices:[ "painted", "paints", "was painted", "is painting", "were painted" ],
+    answer:3,
+    explanation:"그림은 누군가에 '<b>의해 그려진</b>' 것이니 수동태 <b>[was + 과거분사]</b>를 써야 해요. 주어 The Mona Lisa는 단수, 'a long time ago(오래 전에)'라 과거 → <b>was painted</b>. ✅ 정답 ③! 💡 paint의 변화: paint-painted-painted. 'by Leonardo da Vinci(레오나르도에 의해)'가 수동태의 결정적 단서예요. painted(능동 과거)는 '모나리자가 직접 그렸다'는 이상한 뜻이 되니 ❌. 주어가 동작을 '하는지' '당하는지'를 먼저 판단하세요!"
+  },
+  // ===== 어법 원본 11 · 능동→수동 전환 (목적격 by + her/him) =====
+  {
+    id:15, type:"객관식", origin:"어법 원본 11번", topic:"능동→수동 전환 (by + 목적격)",
+    body:`다음 두 문장이 같은 뜻이 되도록 빈칸에 알맞게 짝지어진 것은?
+      <div class="reading">Tom cleaned the room. <br>= The room ________ by ________.</div>`,
+    choices:[
+      "is cleaned — he",
+      "was cleaned — him",
+      "was cleaned — he",
+      "were cleaned — him",
+      "is cleaned — him"
+    ],
+    answer:2,
+    explanation:"능동태 'Tom cleaned the room'을 수동태로 바꾸면 <code class='eng'>The room was cleaned by Tom.</code>이에요. ① 시제: 과거(cleaned)라 <b>was cleaned</b>, ② by 뒤: 전치사 뒤이므로 <b>목적격 him</b>(he ❌). ✅ 정답 ② was cleaned — him! 💡 수동태 전환 3단계 — ⑴ 목적어(the room)를 주어로, ⑵ 동사를 'be + p.p.'(was cleaned)로, ⑶ 원래 주어는 'by + 목적격'(by him)으로. by 뒤에는 he/she/I가 아니라 him/her/me!"
+  },
+  {
+    id:16, type:"객관식", origin:"어법 원본 11번", topic:"능동→수동 전환 (by + 목적격)",
+    body:`다음 두 문장이 같은 뜻이 되도록 빈칸에 알맞게 짝지어진 것은?
+      <div class="reading">My mom made this soup. <br>= This soup ________ by ________.</div>`,
+    choices:[
+      "is made — she",
+      "made — her",
+      "was made — she",
+      "was made — her",
+      "were made — her"
+    ],
+    answer:4,
+    explanation:"능동태 'My mom made this soup'을 수동태로 바꾸면 <code class='eng'>This soup was made by my mom.</code>이에요. 과거(made)라 <b>was made</b>, by 뒤는 목적격 <b>her</b>. ✅ 정답 ④ was made — her! 💡 make의 변화: make-made-made. 주어 This soup가 단수라 was(were ❌). 그리고 'by + 목적격' 규칙으로 she가 아니라 her! 수동태의 핵심은 'be동사 시제·수 맞추기 + by 뒤 목적격'이에요."
+  },
+  // ===== 어법 원본 12 · 어법상 틀린 것 찾기 =====
+  {
+    id:17, type:"객관식", origin:"어법 원본 12번", topic:"어법상 틀린 문장 (수동태 p.p.)",
+    body:`다음 중 어법상 <b>틀린</b> 문장은?`,
+    choices:[
+      "French is spoken in Canada.",
+      "The window was broke by the boy.",
+      "He doesn't have to come early.",
+      "The book was written in 2010.",
+      "Rice is grown in many countries."
+    ],
+    answer:2,
+    explanation:"② <code class='eng'>The window was broke ~</code>가 틀렸어요. 수동태는 'be + <b>과거분사(p.p.)</b>'인데 broke는 과거형이에요. 과거분사 <b>broken</b>으로 고쳐 <b>was broken</b>이 되어야 해요. ✅ 정답 ②! 💡 break의 변화: break-broke-<b>broken</b>. 수동태엔 세 번째 형(p.p.)을 써요. 나머지는 모두 맞아요 — ①⑤ 수동태(is spoken, is grown), ③ doesn't have to+원형, ④ was written(write-wrote-written). 'was/were 다음이 과거분사인지' 꼭 확인!"
+  },
+  {
+    id:18, type:"객관식", origin:"어법 원본 12번", topic:"어법상 틀린 문장 (주어-동사 일치)",
+    body:`다음 중 어법상 <b>틀린</b> 문장은?`,
+    choices:[
+      "She has to finish it today.",
+      "Tim have to clean his room.",
+      "They don't have to hurry.",
+      "I have to go now.",
+      "He has to study hard."
+    ],
+    answer:2,
+    explanation:"② <code class='eng'>Tim have to ~</code>가 틀렸어요. 주어 Tim은 3인칭 단수라서 <b>has to</b>를 써야 해요 → <b>Tim has to clean his room.</b> ✅ 정답 ②! 💡 have to는 주어에 따라 모양이 달라져요 — I/You/We/They → <b>have to</b>, He/She/It/사람이름(단수) → <b>has to</b>. ①⑤ She/He has to(⭕), ③ They don't have to(⭕), ④ I have to(⭕). 부정은 don't/doesn't have to. 주어가 '한 사람·한 개'면 has to!"
+  },
+  // ===== 어법 원본 13 · 능동·수동 연결 =====
+  {
+    id:19, type:"객관식", origin:"어법 원본 13번", topic:"능동/수동 구별 연결",
+    body:`다음 빈칸 ⓐ, ⓑ에 들어갈 말로 알맞게 연결된 것은?
+      <div class="reading">• The dog ⓐ________ the ball quickly.<br>• The windows ⓑ________ by the strong wind.</div>`,
+    choices:[
+      "ⓐ caught  ⓑ broke",
+      "ⓐ was caught  ⓑ broke",
+      "ⓐ caught  ⓑ were broken",
+      "ⓐ was caught  ⓑ were broken",
+      "ⓐ caught  ⓑ was broken"
+    ],
+    answer:3,
+    explanation:"ⓐ 개가 공을 '직접 잡는' 것이니 <b>능동태 caught</b>. ⓑ 창문은 바람'에 의해' 깨지는 것이니 <b>수동태</b>, 게다가 windows가 복수라 <b>were broken</b>. ✅ 정답 ③ caught / were broken! 💡 판단 요령 — 주어가 동작을 직접 '하면' 능동(caught), 동작을 '당하면' 수동(be+p.p.). 'by + 행위자'가 있으면 수동 신호! windows는 복수니까 was가 아니라 were. catch-caught-caught, break-broke-broken."
+  },
+  {
+    id:20, type:"객관식", origin:"어법 원본 13번", topic:"능동/수동 구별 연결",
+    body:`다음 빈칸 ⓐ, ⓑ에 들어갈 말로 알맞게 연결된 것은?
+      <div class="reading">• Mina ⓐ________ a letter to her friend.<br>• These cookies ⓑ________ by my sister.</div>`,
+    choices:[
+      "ⓐ wrote  ⓑ made",
+      "ⓐ was written  ⓑ made",
+      "ⓐ wrote  ⓑ were made",
+      "ⓐ was written  ⓑ were made",
+      "ⓐ wrote  ⓑ was made"
+    ],
+    answer:3,
+    explanation:"ⓐ 미나가 편지를 '직접 쓰는' 것이니 <b>능동태 wrote</b>. ⓑ 쿠키는 언니'에 의해' 만들어지는 것이니 <b>수동태</b>, cookies가 복수라 <b>were made</b>. ✅ 정답 ③ wrote / were made! 💡 'by my sister(언니에 의해)'가 ⓑ를 수동으로 만드는 단서예요. cookies(복수) → were made(was ❌). 주어가 '하는지(능동)/당하는지(수동)'를 먼저 정하고, 수동이면 수·시제에 맞춰 be동사를 골라요."
+  },
+  // ===== 어법 원본 14 · don't have to vs must not =====
+  {
+    id:21, type:"객관식", origin:"어법 원본 14번", topic:"don't have to (~할 필요 없다)",
+    body:`다음 우리말을 영어로 바르게 옮긴 것은?
+      <div class="reading">너는 지금 그곳에 갈 필요가 없어.</div>`,
+    choices:[
+      "You must not go there now.",
+      "You don't have to go there now.",
+      "You cannot go there now.",
+      "Don't go there now.",
+      "You should not go there now."
+    ],
+    answer:2,
+    explanation:"'~할 <b>필요가 없다</b>(안 해도 된다)'는 <code class='eng'>don't have to</code>로 표현해요. ✅ 정답 ② You don't have to go there now! 💡 비슷해 보이지만 뜻이 완전히 달라요 — <b>don't have to</b> = ~할 필요 없다(불필요), <b>must not</b> = ~하면 안 된다(강한 금지)! ① must not go(가면 안 된다), ③ cannot(할 수 없다), ④ Don't go(가지 마-명령), ⑤ should not(하지 않는 게 좋다)는 모두 '필요 없다'와 달라요."
+  },
+  {
+    id:22, type:"객관식", origin:"어법 원본 14번", topic:"must not (강한 금지) 뜻 구별",
+    body:`다음 문장의 우리말 뜻으로 알맞은 것은?
+      <div class="reading">You <u>must not</u> touch the paintings in the museum.</div>`,
+    choices:[
+      "너는 그림을 만질 필요가 없다.",
+      "너는 그림을 만지면 안 된다.",
+      "너는 그림을 만져도 된다.",
+      "너는 그림을 만지고 싶어 한다.",
+      "너는 그림을 만질 수 있다."
+    ],
+    answer:2,
+    explanation:"<code class='eng'>must not</code>은 '<b>~하면 절대 안 된다</b>'는 <b>강한 금지</b>예요. 그래서 ② '만지면 안 된다'가 정답! ✅ 💡 헷갈리기 쉬운 짝 — must not(금지: 하면 안 됨) ↔ don't have to(불필요: 안 해도 됨)! ① '만질 필요 없다'는 don't have to의 뜻이라 함정이에요. ③ 만져도 된다(may/can), ⑤ 만질 수 있다(can)와도 구별하세요. 박물관·도서관 규칙엔 must not(금지)이 잘 어울려요."
+  },
+  // ===== 독해 원본 30 · 대화 내용 불일치 =====
+  {
+    id:23, type:"객관식", origin:"독해 원본 30번", topic:"대화 내용 불일치 (확신)",
+    body:`다음 대화의 내용과 일치하지 <b>않는</b> 것은?
+      <div class="dialog">
+        <div class="line"><span class="a">G:</span> Which team will win today, the Reds or the Blues?</div>
+        <div class="line"><span class="b">B:</span> The Reds. They're the better team.</div>
+        <div class="line"><span class="a">G:</span> Are you sure? Yun Jihun, their star player, is not playing today.</div>
+        <div class="line"><span class="b">B:</span> I didn't know that. Then, I'm not sure.</div>
+      </div>`,
+    choices:[
+      "소녀는 어느 팀이 이길지 궁금해한다.",
+      "소년은 처음에 Reds가 이길 거라고 생각했다.",
+      "Yun Jihun은 오늘 경기에 나오지 않는다.",
+      "소년은 Yun Jihun이 안 나오는 것을 몰랐다.",
+      "소년은 끝까지 Reds의 승리를 확신한다."
+    ],
+    answer:5,
+    explanation:"소년은 마지막에 'Then, <b>I'm not sure</b>(그럼 확신이 안 서네)'라고 했어요. 그러니 ⑤ '끝까지 Reds의 승리를 확신한다'는 대화와 <b>정반대</b>예요. ✅ 정답 ⑤! 💡 ① Which team will win?(궁금), ② The Reds(처음엔 확신), ③ not playing today(스타 선수 결장), ④ I didn't know that(몰랐음) — 모두 일치해요. 'Are you sure?(확실해?)'에 대한 답이 'I'm not sure'로 바뀌는 흐름(확신→불확신)이 핵심 함정이에요."
+  },
+  {
+    id:24, type:"객관식", origin:"독해 원본 30번", topic:"대화 내용 불일치 (날씨)",
+    body:`다음 대화의 내용과 일치하지 <b>않는</b> 것은?
+      <div class="dialog">
+        <div class="line"><span class="a">G:</span> What will the weather be like tomorrow?</div>
+        <div class="line"><span class="b">B:</span> It's going to rain a lot.</div>
+        <div class="line"><span class="a">G:</span> Are you sure? It's quite sunny now.</div>
+        <div class="line"><span class="b">B:</span> Yes. Check the weather forecast here. It says it's going to rain on Monday.</div>
+      </div>`,
+    choices:[
+      "소녀는 내일 날씨가 궁금하다.",
+      "소년은 비가 많이 올 거라고 말한다.",
+      "지금은 날씨가 꽤 화창하다.",
+      "일기예보에 따르면 월요일에 비가 온다.",
+      "소년은 자신의 예측에 확신이 없다."
+    ],
+    answer:5,
+    explanation:"소년은 'Are you sure?(확실해?)'라는 질문에 <b>Yes</b>라고 답하고, 일기예보까지 보여 줬어요. 그러니 ⑤ '확신이 없다'는 대화와 달라요. ✅ 정답 ⑤! 💡 ① What will the weather be like?(내일 날씨 궁금), ② rain a lot(비 많이), ③ sunny now(지금 화창), ④ forecast ~ rain on Monday(예보상 월요일 비) — 모두 일치. 'Yes' + 'Check the forecast'에서 소년이 <b>확신하고 있음</b>을 읽어 내세요. forecast = 일기예보!"
+  },
+  // ===== 독해 원본 40 · 글의 주제 =====
+  {
+    id:25, type:"객관식", origin:"독해 원본 40번", topic:"글의 주제 (자전거의 탄생)",
+    body:`다음 글의 주제로 가장 적절한 것은?
+      <div class="reading">Mt. Tambora, a volcano in Indonesia, exploded in 1815. The explosion created a huge cloud of ash, so crops failed around the world. People needed a new way to travel because many horses were killed for food. So Karl von Drais invented the first bicycle in Germany in 1817.</div>`,
+    choices:[
+      "인도네시아에 있는 여러 화산들",
+      "최초의 자전거가 만들어진 배경",
+      "1815년에 흉작이 든 원인 분석",
+      "1800년대의 다양한 여행 방법",
+      "말이 식량으로 쓰이게 된 역사"
+    ],
+    answer:2,
+    explanation:"글은 '화산 폭발 → 흉작 → 말 부족 → <b>새 이동수단 필요 → 최초의 자전거 발명</b>'이라는 흐름으로 이어져요. 즉 자전거가 <b>왜·어떻게 생겨났는지(배경)</b>가 주제예요. ✅ 정답 ②! 💡 ① 화산은 '배경 설명'일 뿐 글 전체의 중심은 아니에요. ③ 흉작 원인, ④ 여행 방법, ⑤ 말의 역사도 일부 소재일 뿐 주제가 아니죠. 주제는 글이 '결국 말하려는 한 가지'! 마지막 문장(자전거 발명)이 글의 도착점이라는 점을 보세요."
+  },
+  {
+    id:26, type:"객관식", origin:"독해 원본 40번", topic:"글의 주제 (웹캠의 발명)",
+    body:`다음 글의 주제로 가장 적절한 것은?
+      <div class="reading">The first webcam was invented to watch a coffee pot. In 1991, two researchers at a computer lab in England needed lots of coffee, but the coffee pot was often empty. So they set up a camera in front of the coffee machine. With special software, everyone could see the coffee pot on their computers. No more disappointing trips!</div>`,
+    choices:[
+      "최초의 웹캠이 발명된 이유",
+      "맛있는 커피를 내리는 방법",
+      "영국에서 가장 유명한 연구소",
+      "카메라의 다양한 종류와 가격",
+      "컴퓨터 네트워크의 발전 역사"
+    ],
+    answer:1,
+    explanation:"글은 '커피포트가 자꾸 비어 헛걸음을 했다 → 그래서 카메라를 설치했다 → 그것이 최초의 웹캠'이라는 내용이에요. 즉 <b>최초의 웹캠이 왜 발명되었는지</b>가 주제예요. ✅ 정답 ①! 💡 ② 커피 내리는 법, ③ 연구소 소개, ④ 카메라 종류, ⑤ 네트워크 역사는 글의 초점이 아니에요. 첫 문장 'The first webcam was invented <b>to watch a coffee pot</b>(커피포트를 보려고)'에 주제가 압축돼 있어요. 글 첫 문장과 마지막 문장을 주제 단서로 활용하세요!"
+  }
+];
+
+// ============== STATE ==============
+let state = { answers:{}, correct:{}, startTime:null, endTime:null };
+const TOTAL = QUESTIONS.length;
+
+// ============== NAV ==============
+function show(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ============== START (name required) ==============
+const nameInput = document.getElementById('studentName');
+const startBtn = document.getElementById('startBtn');
+function refreshStart(){
+  const ok = nameInput.value.trim().length > 0;
+  startBtn.disabled = !ok;
+  startBtn.textContent = ok ? '클리닉 시작하기 →' : '이름을 입력하면 시작돼요';
+}
+nameInput.addEventListener('input', refreshStart);
+nameInput.addEventListener('keydown', e => { if(e.key==='Enter' && nameInput.value.trim()) startQuiz(); });
+
+function startQuiz(){
+  const name = nameInput.value.trim();
+  if(!name){ showToast('이름을 먼저 입력해 주세요 ✍️'); nameInput.focus(); return; }
+  STUDENT = name;
+  state.startTime = Date.now();
+  shuffleChoices();
+  renderQuiz();
+  show('screen-quiz');
+}
+
+// ===== 회차마다 보기 순서를 섞어 정답 위치가 매번 달라지게 함 =====
+function shuffleChoices(){
+  QUESTIONS.forEach(q => {
+    if(q.type !== '객관식' || q.noshuffle) return;
+    const correctText = q.choices[q.answer - 1];
+    for(let i = q.choices.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [q.choices[i], q.choices[j]] = [q.choices[j], q.choices[i]];
+    }
+    q.answer = q.choices.indexOf(correctText) + 1;
+  });
+}
+
+// ============== QUIZ RENDERING ==============
+function renderQuiz(){
+  const list = document.getElementById('quizList');
+  list.innerHTML = '';
+  document.getElementById('progressLabel').textContent = `진행 0 / ${TOTAL}`;
+  QUESTIONS.forEach((q) => {
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    card.id = 'q' + q.id;
+    let meta = `<div class="qmeta">
+      <span class="pill ${q.type==='객관식'?'teal':'amber'}">${q.type}</span>
+      <span class="pill unit">동아 3과</span>
+      <span class="pill ink">${q.origin}</span>
+      <span class="pill amber">${q.topic}</span>
+    </div>`;
+    let inner = `${meta}<div class="qnum">문제 ${q.id} / ${TOTAL}</div><div class="qbody">${q.body}</div>`;
+    inner += `<div class="choices">`;
+    q.choices.forEach((c,i) => {
+      inner += `<div class="choice" data-idx="${i+1}" onclick="answerChoice(${q.id}, ${i+1})">
+        <span class="num">${i+1}.</span><span>${c}</span></div>`;
+    });
+    inner += `</div>
+    <div class="feedback" id="fb${q.id}"></div>
+    <div class="explanation" id="ex${q.id}"></div>`;
+    card.innerHTML = inner;
+    list.appendChild(card);
+  });
+}
+
+// ============== ANSWER HANDLING ==============
+function answerChoice(qid, idx){
+  if(state.answers[qid] !== undefined) return;
+  const card = document.getElementById('q'+qid);
+  card.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+  card.querySelector(`.choice[data-idx="${idx}"]`).classList.add('selected');
+  const q = QUESTIONS.find(x => x.id === qid);
+  const ok = (idx === q.answer);
+  state.answers[qid] = idx;
+  state.correct[qid] = ok;
+  card.querySelectorAll('.choice').forEach(c => c.classList.add('locked'));
+  const fb = card.querySelector('#fb'+qid);
+  fb.className = 'feedback show ' + (ok ? 'ok':'ng');
+  fb.textContent = ok ? '정답! 🎉 (해설은 다 푼 뒤 공개)' : '체크 완료 ✏️ (해설은 다 푼 뒤 공개)';
+  afterAnswer();
+  if(Object.keys(state.answers).length < QUESTIONS.length){
+    setTimeout(() => scrollToNext(qid), 250);
+  }
+}
+
+function scrollToNext(qid){
+  const ids = QUESTIONS.map(q => q.id);
+  const i = ids.indexOf(qid);
+  let target = null;
+  for(let j=i+1; j<ids.length; j++){ if(state.answers[ids[j]]===undefined){ target=ids[j]; break; } }
+  if(target===null){ for(let j=0; j<i; j++){ if(state.answers[ids[j]]===undefined){ target=ids[j]; break; } } }
+  if(target===null) return;
+  const el = document.getElementById('q'+target);
+  if(!el) return;
+  el.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function afterAnswer(){
+  const total = QUESTIONS.length;
+  const done = Object.keys(state.answers).length;
+  document.getElementById('progressLabel').textContent = `진행 ${done} / ${total}`;
+  document.getElementById('progressFill').style.width = (done/total*100) + '%';
+  if(done === total){
+    state.endTime = Date.now();
+    QUESTIONS.forEach(q => {
+      const ex = document.getElementById('ex'+q.id);
+      const correctAns = q.choices[q.answer-1];
+      ex.innerHTML = `<strong>✅ 정답: ${correctAns}</strong><br>${q.explanation}`;
+      ex.classList.add('show');
+    });
+    document.getElementById('quizEndNote').style.display = 'block';
+    setTimeout(showResult, 1600);
+  }
+}
+
+// ============== RESULT ==============
+function showResult(){
+  const total = QUESTIONS.length;
+  const correct = Object.values(state.correct).filter(v => v).length;
+  const wrong = total - correct;
+  const rate = Math.round(correct/total*100);
+  const minutes = Math.max(1, Math.round((state.endTime - state.startTime)/60000));
+  document.getElementById('resultName').textContent = `${STUDENT} 학생 점수`;
+  document.getElementById('finalScore').textContent = `${correct} / ${total}`;
+  document.getElementById('finalRate').textContent = `정답률 ${rate}%`;
+  document.getElementById('finalTotal').textContent = `${total}문제`;
+  document.getElementById('finalCorrect').textContent = `${correct}개`;
+  document.getElementById('finalWrong').textContent = `${wrong}개`;
+  document.getElementById('finalTime').textContent = `${minutes}분`;
+  document.getElementById('kakaoPreview').textContent = buildMessage(correct, total, wrong, rate, minutes);
+  show('screen-result');
+}
+
+function buildMessage(correct, total, wrong, rate, minutes){
+  let msg = `안녕하세요 ${TEACHER}님! 🌸\n\n`;
+  if(rate === 100) msg += `와! ${STUDENT} 학생, 변형문제를 전부 다 맞혔어요!! 정말 대단해요 🌟\n\n`;
+  else if(rate >= 80) msg += `${STUDENT} 학생 정말 잘했어요! 거의 다 맞혔네요 👍\n\n`;
+  else if(rate >= 60) msg += `${STUDENT} 학생 잘 풀었어요! 몇 개만 더 보면 완벽해요 💪\n\n`;
+  else if(rate >= 40) msg += `${STUDENT} 학생, 끝까지 푼 게 정말 멋져요! 오답 같이 보면 금방 늘어요 🌱\n\n`;
+  else msg += `어려운 부분 끝까지 푼 ${STUDENT} 학생, 박수! 같이 차근차근 봐요 🤗\n\n`;
+
+  msg += `📊 4단원 오답 클리닉 결과 (동아 윤정미 3과 변형문제)\n`;
+  msg += `━━━━━━━━━━━━━━━\n`;
+  msg += `학생: ${STUDENT}\n`;
+  msg += `총 문제: ${total}개\n`;
+  msg += `정답: ${correct}개 / 오답: ${wrong}개\n`;
+  msg += `풀이 시간: ${minutes}분\n`;
+  msg += `정답률: ${rate}%\n`;
+  msg += `━━━━━━━━━━━━━━━\n\n`;
+
+  if(correct === total){
+    msg += `🎉🎉 모든 문제를 다 맞혔어요!! 🎉🎉\n${STUDENT} 학생 정말 자랑스러워요 ✨\n\n`;
+  } else {
+    msg += `📝 오답 정리\n\n`;
+    QUESTIONS.forEach(q => {
+      if(state.correct[q.id]) return;
+      const myAns = state.answers[q.id];
+      const correctAns = q.choices[q.answer-1];
+      const myAnsText = `${myAns}번 (${stripHtml(q.choices[myAns-1])})`;
+      msg += `❌ 문제 ${q.id} [${q.origin}]\n`;
+      msg += `유형: ${q.topic}\n`;
+      msg += `📝 ${STUDENT} 답: ${myAnsText}\n`;
+      msg += `✅ 정답: ${stripHtml(correctAns)}\n`;
+      msg += `💡 해설: ${stripHtml(q.explanation)}\n`;
+      msg += `👉 다음엔 꼭 맞힐 수 있어요!\n`;
+      msg += `━━━━━━━━━━━━━━━\n\n`;
+    });
+  }
+  msg += `오늘도 수고 많았어요~ 😊\n- 영핏 지나티처`;
+  return msg;
+}
+
+function stripHtml(s){
+  return s.replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"');
+}
+
+// ============== COPY ==============
+function copyMessage(){
+  const text = document.getElementById('kakaoPreview').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('메시지가 복사됐어요! 카톡에 붙여넣기 하세요 📋');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('메시지가 복사됐어요! 카톡에 붙여넣기 하세요 📋');
+  });
+}
+
+function showToast(text){
+  const t = document.getElementById('toast');
+  t.textContent = text; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ============== KEYBOARD ==============
+document.addEventListener('keydown', e => {
+  const quiz = document.getElementById('screen-quiz');
+  if(!quiz.classList.contains('active')) return;
+  const cards = Array.from(document.querySelectorAll('.qcard'));
+  const center = window.innerHeight/2;
+  let best=null, bestDist=Infinity;
+  cards.forEach(c => {
+    const q = QUESTIONS.find(x => x.id === parseInt(c.id.slice(1)));
+    if(state.answers[q.id] !== undefined) return;
+    const rect = c.getBoundingClientRect();
+    if(rect.bottom < 0 || rect.top > window.innerHeight) return;
+    const dist = Math.abs((rect.top+rect.bottom)/2 - center);
+    if(dist < bestDist){ bestDist=dist; best=q; }
+  });
+  if(!best) return;
+  if(/^[1-5]$/.test(e.key)){
+    const n = parseInt(e.key);
+    if(n <= best.choices.length){ e.preventDefault(); answerChoice(best.id, n); }
+  }
+});
+
+// ============== INIT ==============
+startBtn.addEventListener('click', startQuiz);
+document.getElementById('copyBtn').addEventListener('click', copyMessage);
+refreshStart();
+</script>
+</body>
+</html>
